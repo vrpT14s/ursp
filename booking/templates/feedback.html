@@ -1,0 +1,35 @@
+<html>
+	<head><title>Feedback for {{resource.name}}</title></head>
+	<body>
+		<h1>Feedback for <i>{{resource.name}}</i></h1>
+
+
+		<form action="{% url 'feedback_post' resource.id %}" method="post">
+		{% csrf_token %}
+		<fieldset>
+		<legend><b>Give Feedback</b></legend>
+			<textarea name="content" id="content" rows=5 cols=50></textarea>
+			<br>
+		<input type="submit" value="Comment"> 
+		<br>
+		{% if error_message %}<br>Error: <i>{{ error_message }}</i><br>{% endif %}
+		</fieldset>
+		</form>
+
+		{% if feedback %}
+		<ul>
+		{% for comment in feedback %}
+			<li> 
+			At <i>{{comment.timestamp}}</i>,
+			<i>{{comment.user}}</i> 
+			commented
+			"<i>{{comment.content}}</i>"
+			</li>
+		{% endfor %}
+		</ul>
+
+		{% else %}
+		<i>No Feedback yet.</i>
+		{% endif %}
+	</body>
+</html>

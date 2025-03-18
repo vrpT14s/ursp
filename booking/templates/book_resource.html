@@ -1,0 +1,43 @@
+<html>
+	<head><title>Book {{resource.name}}</title></head>
+	<body>
+		<h1>View all Bookings for <i>{{resource.name}}</i></h1>
+
+
+		<form action="{% url 'book_resource_post' resource.id %}" method="post">
+		{% csrf_token %}
+		<fieldset>
+		<legend><b>Book resource</b></legend>
+		{% if current_booking %}
+			Currently booked by <i>{{current_booking.user}}</i> until {{current_booking.end_date}}
+		{% else %}
+			Not currently booked.
+		{% endif %}
+		<br>
+			<label for="datetime-local">Start</label>
+			<input type="datetime-local" name="start_date" id="start_date">
+			<label for="datetime-local">End</label>
+			<input type="datetime-local" name="end_date" id="end_date">
+		<input type="submit" value="Create"> 
+		<br>
+		{% if error_message %}<br>Error: <i>{{ error_message }}</i><br>{% endif %}
+		</fieldset>
+		</form>
+
+		{% if bookings %}
+		<ul>
+		{% for booking in bookings %}
+			<li> 
+			<i>{{booking.user}}</i> 
+			booked this from
+			{{booking.start_date}} to 
+			{{booking.end_date}}
+			</li>
+		{% endfor %}
+		</ul>
+
+		{% else %}
+		<i>No Bookings</i>
+		{% endif %}
+	</body>
+</html>

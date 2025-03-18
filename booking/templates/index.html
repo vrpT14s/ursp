@@ -1,0 +1,15 @@
+<html>
+	<head><title>URSP</title></head>
+	<body>
+		<h1>URSP: University Resource Sharing Platform</h1>
+		{% if current_user %}
+		You are logged into <i>"{{current_user.username}}"</i>.
+		{% else %}
+		You are currently not logged in.
+		{% endif %}
+		<br>
+		<a href="{% url 'login' %}">Login and create new users here</a>
+		<br>
+		<a href="{% url 'view_resources' %}">View Resources</a>
+	</body>
+</html>

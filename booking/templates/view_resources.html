@@ -1,0 +1,33 @@
+<html>
+	<head><title>View Resources</title></head>
+	<body>
+		<h1>View all Resources</h1>
+
+		<form action="{% url 'create_resource' %}" method="post">
+		{% csrf_token %}
+		<fieldset>
+		<legend><b>Create new resource</b></legend>
+			<input type="text" name="name" id="name">
+		<input type="submit" value="Create"> 
+		<br>
+		{% if error_message %}<br>Error: <i>{{ error_message }}</i><br>{% endif %}
+		</fieldset>
+		</form>
+
+		{% if resources %}
+
+		<ol>
+		{% for resource in resources %}
+			<li value={{resource.id}}> 
+				{{resource.name}} (property of {{resource.original_owner}}) 
+				<a href="{% url 'book_resource' resource.id %}">Book here</a>
+				<a href="{% url 'feedback' resource.id %}">See feedback</a>
+			</li>
+		{% endfor %}
+		</ol>
+
+		{% else %}
+		<i>No resources</i>
+		{% endif %}
+	</body>
+</html>
