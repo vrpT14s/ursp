@@ -1,33 +1,119 @@
 <html>
-	<head><title>View Resources</title></head>
-	<body>
-		<h1>View all Resources</h1>
+    <head>
+        <title>View Resources</title>
+        <style>
+            body {
+                font-family: 'Arial', sans-serif;
+                background-color: #eaf6ff; /* Light blue background color */
+                margin: 0;
+                padding: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+            }
+            .container {
+                background: #ffffff;
+                padding: 20px;
+                border-radius: 8px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                width: 600px;
+            }
+            h1 {
+                text-align: center;
+                color: #2c3e50;
+                font-size: 1.8em;
+                margin-bottom: 20px;
+            }
+            form {
+                margin-bottom: 20px;
+            }
+            fieldset {
+                border: 1px solid #bdc3c7;
+                border-radius: 4px;
+                padding: 15px;
+                margin-bottom: 20px;
+            }
+            legend {
+                font-weight: bold;
+                color: #34495e;
+            }
+            input[type="text"] {
+                width: calc(100% - 20px);
+                padding: 10px;
+                margin-top: 10px;
+                border: 1px solid #bdc3c7;
+                border-radius: 4px;
+            }
+            input[type="submit"] {
+                background-color: #2980b9;
+                color: white;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                margin-top: 10px;
+            }
+            input[type="submit"]:hover {
+                background-color: #1c598a;
+            }
+            .error-message {
+                color: red;
+                font-size: 0.9em;
+                margin-top: 10px;
+            }
+            ol {
+                padding-left: 20px;
+            }
+            li {
+                margin-bottom: 10px;
+                font-size: 1em;
+                color: #2c3e50;
+            }
+            a {
+                color: #2980b9;
+                text-decoration: none;
+                margin-left: 10px;
+            }
+            a:hover {
+                text-decoration: underline;
+            }
+            .no-resources {
+                text-align: center;
+                color: #7f8c8d;
+                font-style: italic;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>View All Resources</h1>
 
-		<form action="{% url 'create_resource' %}" method="post">
-		{% csrf_token %}
-		<fieldset>
-		<legend><b>Create new resource</b></legend>
-			<input type="text" name="name" id="name">
-		<input type="submit" value="Create"> 
-		<br>
-		{% if error_message %}<br>Error: <i>{{ error_message }}</i><br>{% endif %}
-		</fieldset>
-		</form>
+            <form action="{% url 'create_resource' %}" method="post">
+                {% csrf_token %}
+                <fieldset>
+                    <legend>Create New Resource</legend>
+                    <input type="text" name="name" id="name" placeholder="Enter resource name">
+                    <input type="submit" value="Create">
+                    {% if error_message %}
+                        <div class="error-message">Error: <i>{{ error_message }}</i></div>
+                    {% endif %}
+                </fieldset>
+            </form>
 
-		{% if resources %}
-
-		<ol>
-		{% for resource in resources %}
-			<li value={{resource.id}}> 
-				{{resource.name}} (property of {{resource.original_owner}}) 
-				<a href="{% url 'book_resource' resource.id %}">Book here</a>
-				<a href="{% url 'feedback' resource.id %}">See feedback</a>
-			</li>
-		{% endfor %}
-		</ol>
-
-		{% else %}
-		<i>No resources</i>
-		{% endif %}
-	</body>
+            {% if resources %}
+                <ol>
+                    {% for resource in resources %}
+                        <li>
+                            {{ resource.name }} (property of {{ resource.original_owner }})
+                            <a href="{% url 'book_resource' resource.id %}">Book here</a>
+                            <a href="{% url 'feedback' resource.id %}">See feedback</a>
+                        </li>
+                    {% endfor %}
+                </ol>
+            {% else %}
+                <div class="no-resources">No resources available</div>
+            {% endif %}
+        </div>
+    </body>
 </html>

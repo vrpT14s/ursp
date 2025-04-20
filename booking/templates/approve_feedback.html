@@ -1,30 +1,107 @@
 <html>
-	<head><title>Approve Feedback</title></head>
-	<body>
-		<form action="{% url 'approve_feedback_post' %}" method="post">
-		{% csrf_token %}
-		<fieldset>
-		<legend><b>Approve Feedback</b></legend>
-		<input type="submit" value="Approve"> 
-		<br>
-		{% if error_message %}<br>Error: <i>{{ error_message }}</i><br>{% endif %}
-		</fieldset>
-
-		{% if unapproved_feedback %}
-
-		<ol>
-		{% for comment in unapproved_feedback %}
-			<li value={{comment.id}}> 
-				{{comment.user.username}} posted at {{comment.timestamp}} about {{comment.resource.name}} (property of {{comment.resource.original_owner}}):<br>
-			<input type="checkbox" id="approve_{{comment.id}}" name="approve_{{comment.id}}">
-				<b><i>{{comment.content}}</i></b>
-			</li>
-		{% endfor %}
-		</ol>
-
-		{% else %}
-		<i>No unapproved feedback</i>
-		{% endif %}
-		</form>
-	</body>
+    <head>
+        <title>Approve Feedback</title>
+        <style>
+            body {
+                font-family: 'Arial', sans-serif;
+                background-color: #f4f6f8; /* Light gray background */
+                margin: 0;
+                padding: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+            }
+            .container {
+                background: #ffffff;
+                padding: 30px;
+                border-radius: 8px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                width: 600px;
+            }
+            h1 {
+                color: #2c3e50;
+                font-size: 1.8em;
+                margin-bottom: 20px;
+                text-align: center;
+            }
+            form {
+                margin-bottom: 20px;
+            }
+            fieldset {
+                border: 1px solid #bdc3c7;
+                border-radius: 4px;
+                padding: 15px;
+                margin-bottom: 20px;
+            }
+            legend {
+                font-weight: bold;
+                color: #34495e;
+            }
+            input[type="checkbox"] {
+                margin-right: 10px;
+            }
+            input[type="submit"] {
+                background-color: #2980b9;
+                color: white;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                margin-top: 10px;
+                width: 100%;
+            }
+            input[type="submit"]:hover {
+                background-color: #1c598a;
+            }
+            .error-message {
+                color: red;
+                font-size: 0.9em;
+                margin-top: 10px;
+            }
+            ol {
+                padding-left: 20px;
+            }
+            li {
+                margin-bottom: 15px;
+                font-size: 1em;
+                color: #2c3e50;
+            }
+            .no-feedback {
+                text-align: center;
+                color: #7f8c8d;
+                font-style: italic;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>Approve Feedback</h1>
+            <form action="{% url 'approve_feedback_post' %}" method="post">
+                {% csrf_token %}
+                <fieldset>
+                    <legend>Unapproved Feedback</legend>
+                    {% if unapproved_feedback %}
+                        <ol>
+                            {% for comment in unapproved_feedback %}
+                                <li>
+                                    <b>{{ comment.user.username }}</b> posted at <i>{{ comment.timestamp }}</i> about 
+                                    <b>{{ comment.resource.name }}</b> (property of <i>{{ comment.resource.original_owner }}</i>):
+                                    <br>
+                                    <input type="checkbox" id="approve_{{ comment.id }}" name="approve_{{ comment.id }}">
+                                    <i>{{ comment.content }}</i>
+                                </li>
+                            {% endfor %}
+                        </ol>
+                    {% else %}
+                        <div class="no-feedback">No unapproved feedback available.</div>
+                    {% endif %}
+                    <input type="submit" value="Approve Selected">
+                    {% if error_message %}
+                        <div class="error-message">Error: <i>{{ error_message }}</i></div>
+                    {% endif %}
+                </fieldset>
+            </form>
+        </div>
+    </body>
 </html>

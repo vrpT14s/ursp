@@ -1,36 +1,116 @@
 <html>
-	<head><title>Feedback for {{resource.name}}</title></head>
-	<body>
-		<h1>Feedback for <i>{{resource.name}}</i></h1>
+    <head>
+        <title>Feedback for {{ resource.name }}</title>
+        <style>
+            body {
+                font-family: 'Arial', sans-serif;
+                background-color: #f4f6f8; /* Light gray background */
+                margin: 0;
+                padding: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+            }
+            .container {
+                background: #ffffff;
+                padding: 30px;
+                border-radius: 8px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                width: 600px;
+            }
+            h1 {
+                color: #2c3e50;
+                font-size: 1.8em;
+                margin-bottom: 20px;
+                text-align: center;
+            }
+            form {
+                margin-bottom: 20px;
+            }
+            fieldset {
+                border: 1px solid #bdc3c7;
+                border-radius: 4px;
+                padding: 15px;
+                margin-bottom: 20px;
+            }
+            legend {
+                font-weight: bold;
+                color: #34495e;
+            }
+            textarea {
+                width: calc(100% - 20px);
+                padding: 10px;
+                margin-top: 10px;
+                border: 1px solid #bdc3c7;
+                border-radius: 4px;
+                font-family: 'Arial', sans-serif;
+                font-size: 1em;
+            }
+            input[type="submit"] {
+                background-color: #2980b9;
+                color: white;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                margin-top: 10px;
+                width: 100%;
+            }
+            input[type="submit"]:hover {
+                background-color: #1c598a;
+            }
+            .error-message {
+                color: red;
+                font-size: 0.9em;
+                margin-top: 10px;
+            }
+            ul {
+                padding-left: 20px;
+            }
+            li {
+                margin-bottom: 10px;
+                font-size: 1em;
+                color: #2c3e50;
+            }
+            .no-feedback {
+                text-align: center;
+                color: #7f8c8d;
+                font-style: italic;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>Feedback for <i>{{ resource.name }}</i></h1>
 
+            <form action="{% url 'feedback_post' resource.id %}" method="post">
+                {% csrf_token %}
+                <fieldset>
+                    <legend>Give Feedback</legend>
+                    <textarea name="content" id="content" rows="5" placeholder="Write your feedback here..."></textarea>
+                    <input type="submit" value="Submit Feedback">
+                    {% if error_message %}
+                        <div class="error-message">Error: <i>{{ error_message }}</i></div>
+                    {% endif %}
+                    {% if only_approved %}
+                        <div class="note">Approved feedback only.</div>
+                    {% endif %}
+                </fieldset>
+            </form>
 
-		<form action="{% url 'feedback_post' resource.id %}" method="post">
-		{% csrf_token %}
-		<fieldset>
-		<legend><b>Give Feedback</b></legend>
-			<textarea name="content" id="content" rows=5 cols=50></textarea>
-			<br>
-		<input type="submit" value="Comment"> 
-		<br>
-		{% if error_message %}<br>Error: <i>{{ error_message }}</i><br>{% endif %}
-		</fieldset>
-		{% if only_approved %}<br>Approved feedback only.<br>{% endif %}
-		</form>
-
-		{% if feedback %}
-		<ul>
-		{% for comment in feedback %}
-			<li> 
-			At <i>{{comment.timestamp}}</i>,
-			<i>{{comment.user}}</i> 
-			commented
-			"<i>{{comment.content}}</i>"
-			</li>
-		{% endfor %}
-		</ul>
-
-		{% else %}
-		<i>No Feedback yet.</i>
-		{% endif %}
-	</body>
+            {% if feedback %}
+                <ul>
+                    {% for comment in feedback %}
+                        <li>
+                            At <i>{{ comment.timestamp }}</i>, <b>{{ comment.user }}</b> commented:
+                            "<i>{{ comment.content }}</i>"
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <div class="no-feedback">No feedback yet.</div>
+            {% endif %}
+        </div>
+    </body>
 </html>

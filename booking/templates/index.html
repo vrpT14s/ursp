@@ -1,22 +1,82 @@
 <html>
-	<head><title>URSP</title></head>
-	<body>
-		<h1>URSP: University Resource Sharing Platform</h1>
-		{% if current_user %}
-		You are logged into <i>"{{current_user.username}}"</i>.
-		{% else %}
-		You are currently not logged in.
-		{% endif %}
-		<br>
-		<a href="{% url 'login' %}">Login and create new users here</a>
-		<br>
-		<a href="{% url 'view_resources' %}">View Resources</a>
-		<br>
-		<a href="admin">Admin controls</a>
-		<br>
-		{% if can_approve %}
-			<a href="approve_feedback">Approve Feedback</a>
-		<br>	
-		{% endif %}
-	</body>
+    <head>
+        <title>University Resource Sharing Platform</title>
+        <style>
+            body {
+                font-family: 'Arial', sans-serif;
+                background-color: #eaf6ff; /* Light blue background */
+                margin: 0;
+                padding: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+            }
+            .container {
+                background: #ffffff;
+                padding: 30px;
+                border-radius: 8px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                width: 450px;
+                text-align: center;
+            }
+            h1 {
+                color: #2c3e50;
+                font-size: 1.8em;
+                margin-bottom: 10px;
+            }
+            .welcome-note {
+                color: #34495e;
+                font-size: 1em;
+                margin-bottom: 20px;
+                font-style: italic;
+            }
+            p {
+                color: red;
+                font-size: 1em;
+                margin-bottom: 20px;
+            }
+            .button {
+                display: block;
+                background-color: rgba(52, 152, 219, 0.2); /* Translucent light blue background */
+                color: #2c3e50; /* Dark text for contrast */
+                text-decoration: none;
+                padding: 12px 20px;
+                border-radius: 4px; /* Slightly sharper corners */
+                margin: 10px 0;
+                font-size: 1em;
+                font-family: 'Verdana', sans-serif;
+                font-weight: bold;
+                transition: background-color 0.3s ease, transform 0.2s ease;
+            }
+            .button:hover {
+                background-color: rgba(52, 152, 219, 0.4); /* Slightly darker translucent blue on hover */
+                transform: scale(1.03); /* Slight zoom effect on hover */
+            }
+            .note {
+                color: #7f8c8d;
+                font-size: 0.9em;
+                margin-top: 20px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>URSP: University Resource Sharing Platform</h1>
+            <div class="welcome-note">
+                Welcome to the University Resource Sharing Platform!
+            </div>
+            {% if current_user %}
+                <p>You are logged in as <i>"{{ current_user.username }}"</i>.</p>
+            {% else %}
+                <p>You are currently not logged in.</p>
+            {% endif %}
+            <a href="{% url 'login' %}" class="button">Login and Create New Users</a>
+            <a href="{% url 'view_resources' %}" class="button">View Resources</a>
+            <a href="admin" class="button">Admin Controls</a>
+            {% if can_approve %}
+                <a href="approve_feedback" class="button">Approve Feedback</a>
+            {% endif %}
+        </div>
+    </body>
 </html>

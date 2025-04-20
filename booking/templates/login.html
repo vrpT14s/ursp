@@ -1,55 +1,139 @@
 <html>
-	<head><title>Login</title></head>
-	<body>
-		<form action="{% url 'login_post' %}" method="post">
-		{% csrf_token %}
-		<fieldset>
-		<legend><b>Login</b></legend>
-			<label for="username">Username</label>
-			<input type="text" name="username" id="username">
-			<br>
-			<label for="password">Password</label>
-			<input type="password" name="password" id="password">
-			<br>
-		<input type="submit" value="Login"> 
-		<br>
-		{% if error_message %}Error: <i>{{ error_message }}</i><br>{% endif %}
-		</fieldset>
-		</form>
+    <head>
+        <title>URSP - University Resource Sharing Platform</title>
+        <style>
+            body {
+                font-family: 'Times New Roman', serif;
+                background-color: #dfe6e9; /* Changed background color to a formal light gray */
+                margin: 0;
+                padding: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+            }
+            .container {
+                background: #ffffff;
+                padding: 30px; /* Increased padding */
+                border-radius: 8px;
+                box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Slightly increased shadow */
+                width: 500px; /* Increased width */
+            }
+            h1 {
+                text-align: center;
+                color: #2c3e50;
+                font-size: 2em; /* Slightly increased font size */
+            }
+            form {
+                display: flex;
+                flex-direction: column;
+            }
+            label {
+                margin-top: 10px;
+                font-weight: bold;
+                color: #34495e;
+            }
+            input[type="text"], input[type="password"], input[type="email"] {
+                padding: 12px; /* Increased padding */
+                margin-top: 5px;
+                border: 1px solid #bdc3c7;
+                border-radius: 4px;
+                width: 100%;
+            }
+            input[type="checkbox"] {
+                margin-right: 5px;
+            }
+            .checkbox-group {
+                margin-top: 10px;
+            }
+            input[type="submit"] {
+                background-color: #2980b9;
+                color: white;
+                padding: 12px; /* Increased padding */
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                margin-top: 20px;
+            }
+            input[type="submit"]:hover {
+                background-color: #1c598a;
+            }
+            .error-message {
+                color: red;
+                font-size: 0.9em;
+                margin-top: 10px;
+            }
+            .note {
+                text-align: center;
+                margin-top: 20px;
+                color: #7f8c8d;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>University Resource 
+				Sharing Platform</h1>
+            <form action="{% url 'login_post' %}" method="post">
+                {% csrf_token %}
+                <label for="username">Username</label>
+                <input type="text" name="username" id="username" placeholder="Enter your username">
+                
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" placeholder="Enter your password">
+                
+                <input type="submit" value="Login">
+                
+                {% if error_message %}
+                    <div class="error-message">Error: <i>{{ error_message }}</i></div>
+                {% endif %}
+            </form>
 
-		<br>
-		{% if superuser %}
-		<form action="{% url 'create_user' %}" method="post">
-		{% csrf_token %}
-		<fieldset>
-		<legend><b>Create New User</b></legend>
-			<label for="username">Username</label>
-			<input type="text" name="username" id="username">
-			<br>
-			<label for="password">Password</label>
-			<input type="password" name="password" id="password">
-			<br>
-			<label for="email">Email</label>
-			<input type="email" name="email" id="email">
-			<br>
-			<input type="checkbox" id="is_staff" name="is_staff">
-			<label for="is_staff"> Is staff? </label><br>
-			<input checked="checked" type="checkbox" id="res_add_perms" name="res_add_perms">
-			<label checked="checked" for="res_add_perms"> Can add resources? </label><br>
-			<input checked="checked" type="checkbox" id="book_add_perms" name="book_add_perms">
-			<label for="book_add_perms"> Can add bookings? </label><br>
-			<input checked="checked" type="checkbox" id="feed_add_perms" name="feed_add_perms">
-			<label for="feed_add_perms"> Can give feedback? </label><br>
-			<input checked="checked" type="checkbox" id="view_unapproved_feedback" name="view_unapproved_feedback">
-			<label for="view_unapproved_feedback"> Can view unapproved feedback? </label><br>
-			<br>
-		<input type="submit" value="Create"> 
-		<br>
-		{% if error_message %}Error: <i>{{ error_message }}</i><br>{% endif %}
-		</fieldset>
-		</form>
-		{% else %}
-		<i>Login to the superuser to create new users.</i>
-		{% endif %}
-	</body>
+            {% if superuser %}
+                <h1>Create New User</h1>
+                <form action="{% url 'create_user' %}" method="post">
+                    {% csrf_token %}
+                    <label for="username">Username</label>
+                    <input type="text" name="username" id="username" placeholder="Enter username">
+                    
+                    <label for="password">Password</label>
+                    <input type="password" name="password" id="password" placeholder="Enter password">
+                    
+                    <label for="email">Email</label>
+                    <input type="email" name="email" id="email" placeholder="Enter email">
+                    
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="is_staff" name="is_staff">
+                        <label for="is_staff">Is staff?</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="res_add_perms" name="res_add_perms" checked>
+                        <label for="res_add_perms">Can add resources?</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="book_add_perms" name="book_add_perms" checked>
+                        <label for="book_add_perms">Can add bookings?</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="feed_add_perms" name="feed_add_perms" checked>
+                        <label for="feed_add_perms">Can give feedback?</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="view_unapproved_feedback" name="view_unapproved_feedback" checked>
+                        <label for="view_unapproved_feedback">Can view unapproved feedback?</label>
+                    </div>
+                    
+                    <input type="submit" value="Create">
+                    
+                    {% if error_message %}
+                        <div class="error-message">Error: <i>{{ error_message }}</i></div>
+                    {% endif %}
+                </form>
+            {% else %}
+                <div class="note">
+                    <i>Login to the superuser to create new users.</i>
+                </div>
+            {% endif %}
+        </div>
+    </body>
 </html>
