@@ -1,7 +1,6 @@
 from django.conf import settings
 from django.db import models
-
-#TODO: add constraints
+from django.db.models import CheckConstraint, Q, F
 
 class Moderator(models.Model):
 	#can change this to a OneToOneField
@@ -44,6 +43,14 @@ class Booking(models.Model):
 	end_date = models.DateTimeField()
 	#add constraint so end >= start
 	comment = models.CharField(max_length=200)
+	class Meta:
+		constraints = [
+		CheckConstraint(
+				check = Q(end_date__gt=F('start_date')), 
+				name = 'check_start_date',
+			       ),
+		]
+
 
 class Feedback(models.Model):
 	resource = models.ForeignKey(

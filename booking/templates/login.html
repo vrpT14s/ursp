@@ -32,6 +32,17 @@
 			<label for="email">Email</label>
 			<input type="email" name="email" id="email">
 			<br>
+			<input type="checkbox" id="is_staff" name="is_staff">
+			<label for="is_staff"> Is staff? </label><br>
+			<input checked="checked" type="checkbox" id="res_add_perms" name="res_add_perms">
+			<label checked="checked" for="res_add_perms"> Can add resources? </label><br>
+			<input checked="checked" type="checkbox" id="book_add_perms" name="book_add_perms">
+			<label for="book_add_perms"> Can add bookings? </label><br>
+			<input checked="checked" type="checkbox" id="feed_add_perms" name="feed_add_perms">
+			<label for="feed_add_perms"> Can give feedback? </label><br>
+			<input checked="checked" type="checkbox" id="view_unapproved_feedback" name="view_unapproved_feedback">
+			<label for="view_unapproved_feedback"> Can view unapproved feedback? </label><br>
+			<br>
 		<input type="submit" value="Create"> 
 		<br>
 		{% if error_message %}Error: <i>{{ error_message }}</i><br>{% endif %}

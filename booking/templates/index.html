@@ -11,5 +11,12 @@
 		<a href="{% url 'login' %}">Login and create new users here</a>
 		<br>
 		<a href="{% url 'view_resources' %}">View Resources</a>
+		<br>
+		<a href="admin">Admin controls</a>
+		<br>
+		{% if can_approve %}
+			<a href="approve_feedback">Approve Feedback</a>
+		<br>	
+		{% endif %}
 	</body>
 </html>

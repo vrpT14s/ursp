@@ -21,14 +21,16 @@ from booking import views as booking_views
 
 urlpatterns = [
     path('', booking_views.index, name="home"),
+    path('admin/', admin.site.urls, name="admin_control"),
     path('login/', booking_views.login, name="login"),
     path('login/create', booking_views.create_user, name="create_user"),
     path('login/post', booking_views.login_post, name="login_post"),
-    path('admin/', admin.site.urls),
     path('res/', booking_views.view_resources, name="view_resources"),
     path('res/create', booking_views.create_resource, name="create_resource"),
     path('res/<int:resource_id>/book', booking_views.book_resource, name="book_resource"),
     path('res/<int:resource_id>/book/post', booking_views.book_resource_post, name="book_resource_post"),
     path('res/<int:resource_id>/feedback', booking_views.feedback, name="feedback"),
     path('res/<int:resource_id>/feedback/post', booking_views.feedback_post, name="feedback_post"),
+    path('approve_feedback', booking_views.approve_feedback, name="approve_feedback"),
+    path('approve_feedback_post', booking_views.approve_feedback_post, name="approve_feedback_post"),
 ]

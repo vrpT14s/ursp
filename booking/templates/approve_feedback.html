@@ -1,0 +1,30 @@
+<html>
+	<head><title>Approve Feedback</title></head>
+	<body>
+		<form action="{% url 'approve_feedback_post' %}" method="post">
+		{% csrf_token %}
+		<fieldset>
+		<legend><b>Approve Feedback</b></legend>
+		<input type="submit" value="Approve"> 
+		<br>
+		{% if error_message %}<br>Error: <i>{{ error_message }}</i><br>{% endif %}
+		</fieldset>
+
+		{% if unapproved_feedback %}
+
+		<ol>
+		{% for comment in unapproved_feedback %}
+			<li value={{comment.id}}> 
+				{{comment.user.username}} posted at {{comment.timestamp}} about {{comment.resource.name}} (property of {{comment.resource.original_owner}}):<br>
+			<input type="checkbox" id="approve_{{comment.id}}" name="approve_{{comment.id}}">
+				<b><i>{{comment.content}}</i></b>
+			</li>
+		{% endfor %}
+		</ol>
+
+		{% else %}
+		<i>No unapproved feedback</i>
+		{% endif %}
+		</form>
+	</body>
+</html>
