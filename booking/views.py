@@ -82,7 +82,7 @@ def create_user(request):
 		new_user.user_permissions.add(af)
 	else:
 		new_user.user_permissions.remove(af)
-	if is_staff or view_unapproved_feedback != False:
+	if is_staff or view_unapproved_feedback_perms != False:
 		new_user.user_permissions.add(vf)
 	else:
 		new_user.user_permissions.remove(vf)
